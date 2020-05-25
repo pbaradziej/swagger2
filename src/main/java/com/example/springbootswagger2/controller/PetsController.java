@@ -17,7 +17,7 @@ import java.util.NoSuchElementException;
 
 @RestController
 @RequestMapping("/api/v1")
-@Api(value="Pet Shop", tags={"Operations pertaining to pet in Pet Shop"})
+@Api(value="Pet", tags={"Pet"})
 public class PetsController {
 
     @Autowired
@@ -60,7 +60,7 @@ public class PetsController {
         pets pets = petsRepository.findById(id)
                 .orElseThrow(() -> new NoSuchElementException("Pet not found for this id :: "+ id));
 
-        pets.setId(petsdetails.getId());
+        pets.setId(id);
         pets.setName(petsdetails.getName());
         pets.setBirth(petsdetails.getBirth());
         pets.setSex(petsdetails.getSex());

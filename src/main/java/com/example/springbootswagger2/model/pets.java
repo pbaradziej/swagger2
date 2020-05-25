@@ -6,12 +6,15 @@ import io.swagger.annotations.ApiModelProperty;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 public class pets {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @ApiModelProperty(readOnly = true)
     private int id;
     @ApiModelProperty
     private String name;
@@ -34,7 +37,6 @@ public class pets {
         return id;
     }
 
-    @JsonIgnore
     public void setId(int id) {
         this.id = id;
     }
