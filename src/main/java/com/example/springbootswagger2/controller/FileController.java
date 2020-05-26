@@ -2,7 +2,6 @@ package com.example.springbootswagger2.controller;
 
 
 import com.example.springbootswagger2.model.files;
-import com.example.springbootswagger2.model.pets;
 import com.example.springbootswagger2.repository.FilesRepository;
 import io.swagger.annotations.*;
 import org.slf4j.Logger;
@@ -11,19 +10,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import javax.validation.Valid;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.*;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/v1")
@@ -49,23 +43,24 @@ public class FileController {
     }
 
     @ApiOperation(value = "Upload image of a pet", authorizations = {@Authorization(value="JWT")})
-    @PostMapping("/files/upload/{id}")
-    public files uploadFile(@ApiParam(value = "Upload image to a pet id")@PathVariable(value = "id") int id,
-                            @RequestParam("file") MultipartFile uploadfile)
+    @PostMapping("/pets/{id}")
+    public files uploadFile(@ApiParam(value = "Pet Id to update image of a pet", required = true)
+                                @PathVariable(value = "id")int id,
+                            @ApiParam(value = "Pet object store in database table", required = true)
+                                @RequestParam("file") MultipartFile uploadfile)
                             throws IOException {
         logger.debug("Single file upload");
-        String fileName = StringUtils.cleanPath(uploadfile.getOriginalFilename());
+        String fileName = StringUtils.cleanPath(Objects.requireNonNull(uploadfile.getOriginalFilename()));
         files files = new files(fileName, uploadfile.getContentType(), uploadfile.getBytes());
         files.setId(id);
 
         return filesRepository.save(files);
     }
 
-
     @ApiOperation(value = "Download image of a pet", authorizations = {@Authorization(value="JWT")})
     @GetMapping("/files/download/{id}")
     public ResponseEntity<Resource> downloadfile(
-            @ApiParam(value = "Pet Id to download image of a pet", required = true)@PathVariable(value = "id") int id) throws FileNotFoundException {
+            @ApiParam(value = "Pet Id to download image of a pet", required = true)@PathVariable(value = "id") int id) {
 
         files files = filesRepository.findById(id)
                 .orElseThrow(() -> new NoSuchElementException("Pet not found for this id :: "+ id));
@@ -76,13 +71,13 @@ public class FileController {
                 .body(new ByteArrayResource(files.getImg()));
     }
 
-    @ApiOperation(value = "Delete a pet")
+    @ApiOperation(value = "Delete an image")
     @DeleteMapping("/files/delete/{id}")
-    public Map<String,Boolean> deletepet(@ApiParam(value = "Pet Id from which pet object will delete from database table", required = true)@PathVariable(value = "id") int id)
+    public Map<String,Boolean> deleteimg(@ApiParam(value = "Pet Id to detele image from database table", required = true)@PathVariable(value = "id") int id)
             throws NoSuchElementException{
-        files pets = filesRepository.findById(id)
+        files files = filesRepository.findById(id)
                 .orElseThrow(() -> new NoSuchElementException("Pet not found for this id :: "+ id));
-        filesRepository.delete(pets);
+        filesRepository.delete(files);
         Map<String,Boolean> response = new HashMap<>();
         response.put("deleted",Boolean.TRUE);
         return response;

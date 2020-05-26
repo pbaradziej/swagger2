@@ -5,7 +5,6 @@ import com.example.springbootswagger2.model.pets;
 import com.example.springbootswagger2.repository.PetsRepository;
 import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.context.properties.source.InvalidConfigurationPropertyValueException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 

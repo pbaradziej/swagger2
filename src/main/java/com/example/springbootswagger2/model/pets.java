@@ -1,13 +1,10 @@
 package com.example.springbootswagger2.model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.swagger.annotations.ApiModelProperty;
 
 import javax.persistence.*;
 import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
 
 @Entity
 public class pets {

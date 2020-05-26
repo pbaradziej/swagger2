@@ -1,19 +1,15 @@
 package com.example.springbootswagger2.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.sun.javafx.beans.IDProperty;
 import io.swagger.annotations.ApiModelProperty;
 
 import javax.persistence.*;
 import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Set;
 
 @Entity
 public class files {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @ApiModelProperty(readOnly = true)
     private int id;
     private String Filename;
