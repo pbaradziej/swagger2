@@ -26,9 +26,9 @@ public class Swagger2Config {
 
     }
     private ApiInfo apiEndPointsInfo() {
-        return new ApiInfoBuilder().title("Spring Boot REST API")
-                .description("Pets Management REST API")
-                .contact(new Contact("Paweł Baradziej", "github.com/pbaradziej", "pawel_baradziej@gazeta.pl"))
+        return new ApiInfoBuilder().title("Swagger 2 with Spring REST API")
+                .description("Pets Shop REST API")
+                .contact(new Contact("Paweł Baradziej", "http://github.com/pbaradziej", "pawel_baradziej@gazeta.pl"))
                 .license("Apache 2.0")
                 .licenseUrl("http://www.apache.org/licenses/LICENSE-2.0.html")
                 .version("1.0.0")

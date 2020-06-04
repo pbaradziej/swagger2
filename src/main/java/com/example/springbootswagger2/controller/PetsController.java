@@ -1,6 +1,5 @@
 package com.example.springbootswagger2.controller;
 
-
 import com.example.springbootswagger2.model.pets;
 import com.example.springbootswagger2.repository.PetsRepository;
 import io.swagger.annotations.*;
