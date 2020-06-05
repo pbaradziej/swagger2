@@ -2,7 +2,9 @@ package com.example.springbootswagger2.controller;
 
 
 import com.example.springbootswagger2.model.files;
+import com.example.springbootswagger2.model.pets;
 import com.example.springbootswagger2.repository.FilesRepository;
+import com.example.springbootswagger2.repository.PetsRepository;
 import io.swagger.annotations.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -29,6 +31,9 @@ public class FileController {
     @Autowired
     private FilesRepository filesRepository;
 
+    @Autowired
+    private PetsRepository petsRepository;
+
     @ApiOperation(value = "View a list of available images",response = List.class)
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Successfully retrieved list"),
@@ -50,9 +55,11 @@ public class FileController {
                                 @RequestParam("file") MultipartFile uploadfile)
                             throws IOException {
         logger.debug("Single file upload");
+        pets pets = petsRepository.findById(id)
+                .orElseThrow(() -> new NoSuchElementException("Pet not found for this id :: "+ id));
         String fileName = StringUtils.cleanPath(Objects.requireNonNull(uploadfile.getOriginalFilename()));
         files files = new files(fileName, uploadfile.getContentType(), uploadfile.getBytes());
-        files.setId(id);
+        files.setId(pets.getId());
 
         return filesRepository.save(files);
     }

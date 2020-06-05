@@ -1,6 +1,8 @@
 package com.example.springbootswagger2.controller;
 
+import com.example.springbootswagger2.model.breed;
 import com.example.springbootswagger2.model.pets;
+import com.example.springbootswagger2.repository.BreedRepository;
 import com.example.springbootswagger2.repository.PetsRepository;
 import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +22,9 @@ public class PetsController {
 
     @Autowired
     private PetsRepository petsRepository;
+
+    @Autowired
+    private BreedRepository breedRepository;
 
     @ApiOperation(value = "View a list of available pets",response = List.class)
     @ApiResponses(value = {
@@ -44,8 +49,13 @@ public class PetsController {
     }
 
     @ApiOperation(value = "Add a pet")
-    @PostMapping("/pets")
-    public pets createpet(@ApiParam(value = "Pet object store in database table", required = true)@Valid @RequestBody pets pets){
+    @PostMapping("/breed/{id}")
+    public pets createpet(@ApiParam(value = "Breed Id to add breed of a pet", required = true)
+                              @PathVariable(value = "id")int id,
+            @ApiParam(value = "Pet object store in database table", required = true)@Valid @RequestBody pets pets){
+        breed breed = breedRepository.findById(id)
+                .orElseThrow(() -> new NoSuchElementException("Breed not found for this id :: "+ id));
+        pets.setBreed_id(breed.getId_breed());
         return petsRepository.save(pets);
     }
 
