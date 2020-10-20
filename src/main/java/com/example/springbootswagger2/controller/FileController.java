@@ -43,7 +43,7 @@ public class FileController {
     })
 
     @GetMapping("/files")
-    public List<files> getAllfiles(){
+    public List<files> getAllFiles(){
         return filesRepository.findAll();
     }
 
@@ -66,7 +66,7 @@ public class FileController {
 
     @ApiOperation(value = "Download image of a pet", authorizations = {@Authorization(value="JWT")})
     @GetMapping("/files/download/{id}")
-    public ResponseEntity<Resource> downloadfile(
+    public ResponseEntity<Resource> downloadFile(
             @ApiParam(value = "Pet Id to download image of a pet", required = true)@PathVariable(value = "id") int id) {
 
         files files = filesRepository.findById(id)
@@ -80,7 +80,7 @@ public class FileController {
 
     @ApiOperation(value = "Delete an image")
     @DeleteMapping("/files/delete/{id}")
-    public Map<String,Boolean> deleteimg(@ApiParam(value = "Pet Id to detele image from database table", required = true)@PathVariable(value = "id") int id)
+    public Map<String,Boolean> deleteImg(@ApiParam(value = "Pet Id to delete image from database table", required = true)@PathVariable(value = "id") int id)
             throws NoSuchElementException{
         files files = filesRepository.findById(id)
                 .orElseThrow(() -> new NoSuchElementException("Pet not found for this id :: "+ id));
